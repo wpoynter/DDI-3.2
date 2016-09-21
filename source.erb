@@ -1,0 +1,75 @@
+#include "<%= name.downcase %>.hpp"
+
+std::list<<%= name %>ShPtr> <%= name %>::all;
+
+<%= name %>::<%= name %>() :
+Basic() {}
+
+<%= name %>ShPtr <%= name %>::create() {
+	all.push_back(<%= name %>ShPtr(new <%= name %>()));
+	return all.back();
+}
+
+void <%= name %>::destroy(unsigned int _ID) {
+	all.remove_if(cleaner(_ID));
+}
+
+void <%= name %>::destroy() {
+	destroy(getID());
+}
+
+<% children.each do |child| %><% if child[:repeatable] then %><%= 
+child[:name] %>PtrList <%= name %>::get_<%= child[:name].tableize %>() {
+	return <%= child[:name].tableize %>;
+}
+<% else %>
+<%= child[:name] %>ShPtr <%= name %>::get_<%= child[:name].tableize.singularize %>() {
+	return <%= child[:name].tableize.singularize %>;
+}
+void <%= name %>::set_<%= child[:name].tableize.singularize %>(<%= child[:name] %>ShPtr _<%= child[:name].tableize.singularize %>) {
+	<%= child[:name].tableize.singularize %> = _<%= child[:name].tableize.singularize %>;
+}
+<% end %>
+<% end %>
+<% attributes.each do |attr| %>std::string <%= name %>::get_<%= attr.tableize.singularize %>() {
+	return <%= attr.tableize.singularize %>;
+}<% end %>
+<% attributes.each do |attr| %>void <%= name %>::set_<%= attr.tableize.singularize %>(std::string _<%= attr.tableize.singularize %>) {
+	<%= attr.tableize.singularize %> = _<%= attr.tableize.singularize %>;
+}<% end %>
+<% if has_content? then %>std::string <%= name %>::get_content() {
+	return content;
+}<% end %>
+<% if has_content? then %>void <%= name %>::set_content(std::string _content) {
+	content = _content;
+}<% end %>
+void <%= name %>::read_element(ticpp::Element* elem) {
+	<% attributes.each do |attr| 
+	%>elem->GetAttribute( "<%= attr %>", &<%= attr.tableize.singularize %>, false);<% 
+	end %>
+	<% if has_content? then %>elem->GetText(&content, false);<% end %>
+	<% children.each do |child| %><% if child[:repeatable] then %><%= 
+	%>
+	try {
+		ticpp::Element* child_elem = elem->FirstChildElement("<%= child[:scoped_name] %>");
+		while (true) {
+			<%= child[:name].tableize %>.push_back(<%= child[:name] %>::create());
+			<%= child[:name].tableize %>.back()->read_element(child_elem);
+			child_elem = child_elem->NextSiblingElement("<%= child[:scoped_name] %>");
+		}
+	}
+	catch( ticpp::Exception& ex )
+	{
+	}
+	<% else %>
+	try {
+		ticpp::Element* child_elem = elem->FirstChildElement("<%= child[:scoped_name] %>");
+		<%= child[:name].tableize.singularize %> = <%= child[:name] %>::create();
+		<%= child[:name].tableize.singularize %>->read_element(child_elem);
+	}
+	catch( ticpp::Exception& ex )
+	{
+	}
+	<% end %>
+	<% end %>
+}
