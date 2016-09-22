@@ -17,16 +17,24 @@ private:
    StringShPtr string;
    
    
+   BasicWkPtr parent;
 public:
 	QuestionSchemeName();
 	~QuestionSchemeName() {}
 	
 	//Keep track of all objects 
 	static std::list<QuestionSchemeNameShPtr> all;
+	static std::string type;
 	
 	static QuestionSchemeNameShPtr create();
+	static QuestionSchemeNameShPtr create(BasicWkPtr);
 	static void destroy(unsigned int _ID);
 	virtual void destroy();
+	
+	BasicWkPtr get_parent();
+	void set_parent(BasicWkPtr);
+	
+	std::string get_type();
 	
 	//Getters and setters
 	

@@ -17,16 +17,24 @@ private:
    LiteralTextShPtr literal_text;
    std::string audience_language;
    
+   BasicWkPtr parent;
 public:
 	DisplayText();
 	~DisplayText() {}
 	
 	//Keep track of all objects 
 	static std::list<DisplayTextShPtr> all;
+	static std::string type;
 	
 	static DisplayTextShPtr create();
+	static DisplayTextShPtr create(BasicWkPtr);
 	static void destroy(unsigned int _ID);
 	virtual void destroy();
+	
+	BasicWkPtr get_parent();
+	void set_parent(BasicWkPtr);
+	
+	std::string get_type();
 	
 	//Getters and setters
 	

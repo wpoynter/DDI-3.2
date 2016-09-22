@@ -19,16 +19,24 @@ private:
    CommandContentPtrList command_contents;
    
    
+   BasicWkPtr parent;
 public:
 	Command();
 	~Command() {}
 	
 	//Keep track of all objects 
 	static std::list<CommandShPtr> all;
+	static std::string type;
 	
 	static CommandShPtr create();
+	static CommandShPtr create(BasicWkPtr);
 	static void destroy(unsigned int _ID);
 	virtual void destroy();
+	
+	BasicWkPtr get_parent();
+	void set_parent(BasicWkPtr);
+	
+	std::string get_type();
 	
 	//Getters and setters
 	ProgramLanguagePtrList get_program_languages();

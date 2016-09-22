@@ -25,16 +25,24 @@ private:
    ControlConstructReferencePtrList control_construct_references;
    
    
+   BasicWkPtr parent;
 public:
 	Loop();
 	~Loop() {}
 	
 	//Keep track of all objects 
 	static std::list<LoopShPtr> all;
+	static std::string type;
 	
 	static LoopShPtr create();
+	static LoopShPtr create(BasicWkPtr);
 	static void destroy(unsigned int _ID);
 	virtual void destroy();
+	
+	BasicWkPtr get_parent();
+	void set_parent(BasicWkPtr);
+	
+	std::string get_type();
 	
 	//Getters and setters
 	

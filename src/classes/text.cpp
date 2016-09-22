@@ -1,13 +1,21 @@
 #include "text.hpp"
 
 std::list<TextShPtr> Text::all;
+std::string Text::type = "Text";
 
 Text::Text() :
 Basic() {}
 
 TextShPtr Text::create() {
 	all.push_back(TextShPtr(new Text()));
+	all.back()->set_parent(BasicWkPtr());
 	return all.back();
+}
+
+TextShPtr Text::create(BasicWkPtr _parent) {
+	auto ptr = Text::create();
+	ptr->set_parent(_parent);
+	return ptr;
 }
 
 void Text::destroy(unsigned int _ID) {
@@ -16,6 +24,18 @@ void Text::destroy(unsigned int _ID) {
 
 void Text::destroy() {
 	destroy(getID());
+}
+
+BasicWkPtr Text::get_parent() {
+	return parent;
+}
+
+void Text::set_parent(BasicWkPtr _parent) {
+	parent = _parent;
+}
+
+std::string Text::get_type() {
+	return type;
 }
 
 

@@ -19,16 +19,24 @@ private:
    InstructionTextPtrList instruction_texts;
    
    
+   BasicWkPtr parent;
 public:
 	Instruction();
 	~Instruction() {}
 	
 	//Keep track of all objects 
 	static std::list<InstructionShPtr> all;
+	static std::string type;
 	
 	static InstructionShPtr create();
+	static InstructionShPtr create(BasicWkPtr);
 	static void destroy(unsigned int _ID);
 	virtual void destroy();
+	
+	BasicWkPtr get_parent();
+	void set_parent(BasicWkPtr);
+	
+	std::string get_type();
 	
 	//Getters and setters
 	

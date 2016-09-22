@@ -17,16 +17,24 @@ private:
    StringShPtr string;
    
    
+   BasicWkPtr parent;
 public:
 	ConstructName();
 	~ConstructName() {}
 	
 	//Keep track of all objects 
 	static std::list<ConstructNameShPtr> all;
+	static std::string type;
 	
 	static ConstructNameShPtr create();
+	static ConstructNameShPtr create(BasicWkPtr);
 	static void destroy(unsigned int _ID);
 	virtual void destroy();
+	
+	BasicWkPtr get_parent();
+	void set_parent(BasicWkPtr);
+	
+	std::string get_type();
 	
 	//Getters and setters
 	

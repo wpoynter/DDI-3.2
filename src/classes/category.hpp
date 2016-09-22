@@ -21,16 +21,24 @@ private:
    LabelPtrList labels;
    
    
+   BasicWkPtr parent;
 public:
 	Category();
 	~Category() {}
 	
 	//Keep track of all objects 
 	static std::list<CategoryShPtr> all;
+	static std::string type;
 	
 	static CategoryShPtr create();
+	static CategoryShPtr create(BasicWkPtr);
 	static void destroy(unsigned int _ID);
 	virtual void destroy();
+	
+	BasicWkPtr get_parent();
+	void set_parent(BasicWkPtr);
+	
+	std::string get_type();
 	
 	//Getters and setters
 	

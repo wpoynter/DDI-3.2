@@ -21,16 +21,24 @@ private:
    CategoryPtrList categories;
    std::string version_date;
    
+   BasicWkPtr parent;
 public:
 	CategoryScheme();
 	~CategoryScheme() {}
 	
 	//Keep track of all objects 
 	static std::list<CategorySchemeShPtr> all;
+	static std::string type;
 	
 	static CategorySchemeShPtr create();
+	static CategorySchemeShPtr create(BasicWkPtr);
 	static void destroy(unsigned int _ID);
 	virtual void destroy();
+	
+	BasicWkPtr get_parent();
+	void set_parent(BasicWkPtr);
+	
+	std::string get_type();
 	
 	//Getters and setters
 	

@@ -21,16 +21,24 @@ private:
    ValuePtrList values;
    
    
+   BasicWkPtr parent;
 public:
 	Code();
 	~Code() {}
 	
 	//Keep track of all objects 
 	static std::list<CodeShPtr> all;
+	static std::string type;
 	
 	static CodeShPtr create();
+	static CodeShPtr create(BasicWkPtr);
 	static void destroy(unsigned int _ID);
 	virtual void destroy();
+	
+	BasicWkPtr get_parent();
+	void set_parent(BasicWkPtr);
+	
+	std::string get_type();
 	
 	//Getters and setters
 	

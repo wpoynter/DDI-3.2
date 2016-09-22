@@ -21,16 +21,24 @@ private:
    LabelPtrList labels;
    
    
+   BasicWkPtr parent;
 public:
 	NumericDomain();
 	~NumericDomain() {}
 	
 	//Keep track of all objects 
 	static std::list<NumericDomainShPtr> all;
+	static std::string type;
 	
 	static NumericDomainShPtr create();
+	static NumericDomainShPtr create(BasicWkPtr);
 	static void destroy(unsigned int _ID);
 	virtual void destroy();
+	
+	BasicWkPtr get_parent();
+	void set_parent(BasicWkPtr);
+	
+	std::string get_type();
 	
 	//Getters and setters
 	NumberRangePtrList get_number_ranges();

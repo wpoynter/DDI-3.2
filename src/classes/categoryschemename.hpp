@@ -17,16 +17,24 @@ private:
    StringShPtr string;
    
    
+   BasicWkPtr parent;
 public:
 	CategorySchemeName();
 	~CategorySchemeName() {}
 	
 	//Keep track of all objects 
 	static std::list<CategorySchemeNameShPtr> all;
+	static std::string type;
 	
 	static CategorySchemeNameShPtr create();
+	static CategorySchemeNameShPtr create(BasicWkPtr);
 	static void destroy(unsigned int _ID);
 	virtual void destroy();
+	
+	BasicWkPtr get_parent();
+	void set_parent(BasicWkPtr);
+	
+	std::string get_type();
 	
 	//Getters and setters
 	

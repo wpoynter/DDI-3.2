@@ -29,16 +29,24 @@ private:
    LoopPtrList loops;
    
    
+   BasicWkPtr parent;
 public:
 	ControlConstructScheme();
 	~ControlConstructScheme() {}
 	
 	//Keep track of all objects 
 	static std::list<ControlConstructSchemeShPtr> all;
+	static std::string type;
 	
 	static ControlConstructSchemeShPtr create();
+	static ControlConstructSchemeShPtr create(BasicWkPtr);
 	static void destroy(unsigned int _ID);
 	virtual void destroy();
+	
+	BasicWkPtr get_parent();
+	void set_parent(BasicWkPtr);
+	
+	std::string get_type();
 	
 	//Getters and setters
 	

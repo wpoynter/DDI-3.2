@@ -2,6 +2,7 @@
 
 unsigned int Basic::counter = 0;
 BasicPtrList Basic::all;
+std::string Basic::type = "Basic";
 
 Basic::Basic() {
 	counter++;
@@ -25,6 +26,10 @@ void Basic::destroy() {
 
 unsigned int Basic::getID() const {
 	return ID;
+}
+
+std::string Basic::get_type() {
+	return type;
 }
 
 void Basic::read_element(ticpp::Element*) {}

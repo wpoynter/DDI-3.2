@@ -15,16 +15,24 @@ private:
    
    
    std::string content;
+   BasicWkPtr parent;
 public:
 	DateTypeCode();
 	~DateTypeCode() {}
 	
 	//Keep track of all objects 
 	static std::list<DateTypeCodeShPtr> all;
+	static std::string type;
 	
 	static DateTypeCodeShPtr create();
+	static DateTypeCodeShPtr create(BasicWkPtr);
 	static void destroy(unsigned int _ID);
 	virtual void destroy();
+	
+	BasicWkPtr get_parent();
+	void set_parent(BasicWkPtr);
+	
+	std::string get_type();
 	
 	//Getters and setters
 	

@@ -16,26 +16,37 @@ class ThenConstructReference : public Basic {
 private:
    
    URNShPtr urn;
-   TypeOfObjectPtrList type_of_objects;
+   TypeOfObjectShPtr type_of_object;
    
    
+   BasicWkPtr parent;
 public:
 	ThenConstructReference();
 	~ThenConstructReference() {}
 	
 	//Keep track of all objects 
 	static std::list<ThenConstructReferenceShPtr> all;
+	static std::string type;
 	
 	static ThenConstructReferenceShPtr create();
+	static ThenConstructReferenceShPtr create(BasicWkPtr);
 	static void destroy(unsigned int _ID);
 	virtual void destroy();
+	
+	BasicWkPtr get_parent();
+	void set_parent(BasicWkPtr);
+	
+	std::string get_type();
 	
 	//Getters and setters
 	
 	URNShPtr get_urn();
 	void set_urn(URNShPtr);
 	
-	TypeOfObjectPtrList get_type_of_objects();
+	
+	TypeOfObjectShPtr get_type_of_object();
+	void set_type_of_object(TypeOfObjectShPtr);
+	
 	
 	
 	

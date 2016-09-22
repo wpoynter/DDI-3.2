@@ -17,16 +17,24 @@ private:
    CommandPtrList commands;
    
    
+   BasicWkPtr parent;
 public:
 	IfCondition();
 	~IfCondition() {}
 	
 	//Keep track of all objects 
 	static std::list<IfConditionShPtr> all;
+	static std::string type;
 	
 	static IfConditionShPtr create();
+	static IfConditionShPtr create(BasicWkPtr);
 	static void destroy(unsigned int _ID);
 	virtual void destroy();
+	
+	BasicWkPtr get_parent();
+	void set_parent(BasicWkPtr);
+	
+	std::string get_type();
 	
 	//Getters and setters
 	CommandPtrList get_commands();

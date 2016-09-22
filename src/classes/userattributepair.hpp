@@ -19,16 +19,24 @@ private:
    AttributeValuePtrList attribute_values;
    
    
+   BasicWkPtr parent;
 public:
 	UserAttributePair();
 	~UserAttributePair() {}
 	
 	//Keep track of all objects 
 	static std::list<UserAttributePairShPtr> all;
+	static std::string type;
 	
 	static UserAttributePairShPtr create();
+	static UserAttributePairShPtr create(BasicWkPtr);
 	static void destroy(unsigned int _ID);
 	virtual void destroy();
+	
+	BasicWkPtr get_parent();
+	void set_parent(BasicWkPtr);
+	
+	std::string get_type();
 	
 	//Getters and setters
 	AttributeKeyPtrList get_attribute_keys();

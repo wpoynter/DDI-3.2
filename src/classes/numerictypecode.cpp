@@ -1,13 +1,21 @@
 #include "numerictypecode.hpp"
 
 std::list<NumericTypeCodeShPtr> NumericTypeCode::all;
+std::string NumericTypeCode::type = "NumericTypeCode";
 
 NumericTypeCode::NumericTypeCode() :
 Basic() {}
 
 NumericTypeCodeShPtr NumericTypeCode::create() {
 	all.push_back(NumericTypeCodeShPtr(new NumericTypeCode()));
+	all.back()->set_parent(BasicWkPtr());
 	return all.back();
+}
+
+NumericTypeCodeShPtr NumericTypeCode::create(BasicWkPtr _parent) {
+	auto ptr = NumericTypeCode::create();
+	ptr->set_parent(_parent);
+	return ptr;
 }
 
 void NumericTypeCode::destroy(unsigned int _ID) {
@@ -16,6 +24,18 @@ void NumericTypeCode::destroy(unsigned int _ID) {
 
 void NumericTypeCode::destroy() {
 	destroy(getID());
+}
+
+BasicWkPtr NumericTypeCode::get_parent() {
+	return parent;
+}
+
+void NumericTypeCode::set_parent(BasicWkPtr _parent) {
+	parent = _parent;
+}
+
+std::string NumericTypeCode::get_type() {
+	return type;
 }
 
 

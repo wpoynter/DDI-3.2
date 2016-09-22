@@ -21,16 +21,24 @@ private:
    	%><%= child[:name] %>ShPtr <%= child[:name].tableize.singularize %>;<% end %><% end %>
    <% attributes.each do |attr| %>std::string <%= attr.tableize.singularize %>;<% end %>
    <% if has_content? then %>std::string content;<% end %>
+   BasicWkPtr parent;
 public:
 	<%= name %>();
 	~<%= name %>() {}
 	
 	//Keep track of all objects 
 	static std::list<<%= name %>ShPtr> all;
+	static std::string type;
 	
 	static <%= name %>ShPtr create();
+	static <%= name %>ShPtr create(BasicWkPtr);
 	static void destroy(unsigned int _ID);
 	virtual void destroy();
+	
+	BasicWkPtr get_parent();
+	void set_parent(BasicWkPtr);
+	
+	std::string get_type();
 	
 	//Getters and setters
 	<% children.each do |child| %><% if child[:repeatable] then %><%= 

@@ -15,16 +15,24 @@ private:
    
    
    std::string content;
+   BasicWkPtr parent;
 public:
 	URN();
 	~URN() {}
 	
 	//Keep track of all objects 
 	static std::list<URNShPtr> all;
+	static std::string type;
 	
 	static URNShPtr create();
+	static URNShPtr create(BasicWkPtr);
 	static void destroy(unsigned int _ID);
 	virtual void destroy();
+	
+	BasicWkPtr get_parent();
+	void set_parent(BasicWkPtr);
+	
+	std::string get_type();
 	
 	//Getters and setters
 	

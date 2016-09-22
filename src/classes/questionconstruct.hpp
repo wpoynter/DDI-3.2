@@ -25,16 +25,24 @@ private:
    ResponseUnitPtrList response_units;
    
    
+   BasicWkPtr parent;
 public:
 	QuestionConstruct();
 	~QuestionConstruct() {}
 	
 	//Keep track of all objects 
 	static std::list<QuestionConstructShPtr> all;
+	static std::string type;
 	
 	static QuestionConstructShPtr create();
+	static QuestionConstructShPtr create(BasicWkPtr);
 	static void destroy(unsigned int _ID);
 	virtual void destroy();
+	
+	BasicWkPtr get_parent();
+	void set_parent(BasicWkPtr);
+	
+	std::string get_type();
 	
 	//Getters and setters
 	

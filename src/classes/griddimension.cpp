@@ -1,13 +1,21 @@
 #include "griddimension.hpp"
 
 std::list<GridDimensionShPtr> GridDimension::all;
+std::string GridDimension::type = "GridDimension";
 
 GridDimension::GridDimension() :
 Basic() {}
 
 GridDimensionShPtr GridDimension::create() {
 	all.push_back(GridDimensionShPtr(new GridDimension()));
+	all.back()->set_parent(BasicWkPtr());
 	return all.back();
+}
+
+GridDimensionShPtr GridDimension::create(BasicWkPtr _parent) {
+	auto ptr = GridDimension::create();
+	ptr->set_parent(_parent);
+	return ptr;
 }
 
 void GridDimension::destroy(unsigned int _ID) {
@@ -16,6 +24,18 @@ void GridDimension::destroy(unsigned int _ID) {
 
 void GridDimension::destroy() {
 	destroy(getID());
+}
+
+BasicWkPtr GridDimension::get_parent() {
+	return parent;
+}
+
+void GridDimension::set_parent(BasicWkPtr _parent) {
+	parent = _parent;
+}
+
+std::string GridDimension::get_type() {
+	return type;
 }
 
 CodeDomainPtrList GridDimension::get_code_domains() {
@@ -44,7 +64,7 @@ void GridDimension::read_element(ticpp::Element* elem) {
 	try {
 		ticpp::Element* child_elem = elem->FirstChildElement("d:CodeDomain");
 		while (true) {
-			code_domains.push_back(CodeDomain::create());
+			code_domains.push_back(CodeDomain::create(shared_from_this()));
 			code_domains.back()->read_element(child_elem);
 			child_elem = child_elem->NextSiblingElement("d:CodeDomain");
 		}

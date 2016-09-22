@@ -35,16 +35,24 @@ private:
    TextDomainPtrList text_domains;
    
    
+   BasicWkPtr parent;
 public:
 	QuestionGrid();
 	~QuestionGrid() {}
 	
 	//Keep track of all objects 
 	static std::list<QuestionGridShPtr> all;
+	static std::string type;
 	
 	static QuestionGridShPtr create();
+	static QuestionGridShPtr create(BasicWkPtr);
 	static void destroy(unsigned int _ID);
 	virtual void destroy();
+	
+	BasicWkPtr get_parent();
+	void set_parent(BasicWkPtr);
+	
+	std::string get_type();
 	
 	//Getters and setters
 	

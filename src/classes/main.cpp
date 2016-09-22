@@ -17,9 +17,12 @@ int main()
 		//instance->get_urn()->set_content(elem->FirstChildElement()->GetText());
 	
 		//std::cout << instance->get_urn()->get_content() << std::endl;
-		for (QuestionItemPtrList::iterator iter = QuestionItem::all.begin();
-			iter != QuestionItem::all.end(); ++iter) {
-			std::cout << (*iter)->get_question_texts().front()->get_literal_text()->get_text()->get_content() << std::endl;
+		for (URNPtrList::iterator iter = URN::all.begin();
+			iter != URN::all.end(); ++iter) {
+			if ((*iter)->get_parent().use_count() > 0) {
+				BasicShPtr parent = (*iter)->get_parent().lock();
+				std::cout << parent->get_type() << std::endl;
+			}
 		}
 	}
 	catch( ticpp::Exception& ex )

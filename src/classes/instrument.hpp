@@ -21,16 +21,24 @@ private:
    ControlConstructReferencePtrList control_construct_references;
    
    
+   BasicWkPtr parent;
 public:
 	Instrument();
 	~Instrument() {}
 	
 	//Keep track of all objects 
 	static std::list<InstrumentShPtr> all;
+	static std::string type;
 	
 	static InstrumentShPtr create();
+	static InstrumentShPtr create(BasicWkPtr);
 	static void destroy(unsigned int _ID);
 	virtual void destroy();
+	
+	BasicWkPtr get_parent();
+	void set_parent(BasicWkPtr);
+	
+	std::string get_type();
 	
 	//Getters and setters
 	

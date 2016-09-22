@@ -17,16 +17,24 @@ private:
    TextShPtr text;
    
    
+   BasicWkPtr parent;
 public:
 	LiteralText();
 	~LiteralText() {}
 	
 	//Keep track of all objects 
 	static std::list<LiteralTextShPtr> all;
+	static std::string type;
 	
 	static LiteralTextShPtr create();
+	static LiteralTextShPtr create(BasicWkPtr);
 	static void destroy(unsigned int _ID);
 	virtual void destroy();
+	
+	BasicWkPtr get_parent();
+	void set_parent(BasicWkPtr);
+	
+	std::string get_type();
 	
 	//Getters and setters
 	

@@ -25,16 +25,24 @@ private:
    InstrumentSchemePtrList instrument_schemes;
    std::string version_date;
    
+   BasicWkPtr parent;
 public:
 	DataCollection();
 	~DataCollection() {}
 	
 	//Keep track of all objects 
 	static std::list<DataCollectionShPtr> all;
+	static std::string type;
 	
 	static DataCollectionShPtr create();
+	static DataCollectionShPtr create(BasicWkPtr);
 	static void destroy(unsigned int _ID);
 	virtual void destroy();
+	
+	BasicWkPtr get_parent();
+	void set_parent(BasicWkPtr);
+	
+	std::string get_type();
 	
 	//Getters and setters
 	

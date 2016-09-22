@@ -23,16 +23,24 @@ private:
    QuestionGridPtrList question_grids;
    std::string version_date;
    
+   BasicWkPtr parent;
 public:
 	QuestionScheme();
 	~QuestionScheme() {}
 	
 	//Keep track of all objects 
 	static std::list<QuestionSchemeShPtr> all;
+	static std::string type;
 	
 	static QuestionSchemeShPtr create();
+	static QuestionSchemeShPtr create(BasicWkPtr);
 	static void destroy(unsigned int _ID);
 	virtual void destroy();
+	
+	BasicWkPtr get_parent();
+	void set_parent(BasicWkPtr);
+	
+	std::string get_type();
 	
 	//Getters and setters
 	

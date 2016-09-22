@@ -21,16 +21,24 @@ private:
    DisplayTextPtrList display_texts;
    
    
+   BasicWkPtr parent;
 public:
 	StatementItem();
 	~StatementItem() {}
 	
 	//Keep track of all objects 
 	static std::list<StatementItemShPtr> all;
+	static std::string type;
 	
 	static StatementItemShPtr create();
+	static StatementItemShPtr create(BasicWkPtr);
 	static void destroy(unsigned int _ID);
 	virtual void destroy();
+	
+	BasicWkPtr get_parent();
+	void set_parent(BasicWkPtr);
+	
+	std::string get_type();
 	
 	//Getters and setters
 	

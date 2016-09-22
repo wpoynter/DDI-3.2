@@ -1,13 +1,21 @@
 #include "textdomain.hpp"
 
 std::list<TextDomainShPtr> TextDomain::all;
+std::string TextDomain::type = "TextDomain";
 
 TextDomain::TextDomain() :
 Basic() {}
 
 TextDomainShPtr TextDomain::create() {
 	all.push_back(TextDomainShPtr(new TextDomain()));
+	all.back()->set_parent(BasicWkPtr());
 	return all.back();
+}
+
+TextDomainShPtr TextDomain::create(BasicWkPtr _parent) {
+	auto ptr = TextDomain::create();
+	ptr->set_parent(_parent);
+	return ptr;
 }
 
 void TextDomain::destroy(unsigned int _ID) {
@@ -16,6 +24,18 @@ void TextDomain::destroy(unsigned int _ID) {
 
 void TextDomain::destroy() {
 	destroy(getID());
+}
+
+BasicWkPtr TextDomain::get_parent() {
+	return parent;
+}
+
+void TextDomain::set_parent(BasicWkPtr _parent) {
+	parent = _parent;
+}
+
+std::string TextDomain::get_type() {
+	return type;
 }
 
 LabelPtrList TextDomain::get_labels() {
@@ -36,7 +56,7 @@ void TextDomain::read_element(ticpp::Element* elem) {
 	try {
 		ticpp::Element* child_elem = elem->FirstChildElement("r:Label");
 		while (true) {
-			labels.push_back(Label::create());
+			labels.push_back(Label::create(shared_from_this()));
 			labels.back()->read_element(child_elem);
 			child_elem = child_elem->NextSiblingElement("r:Label");
 		}

@@ -1,13 +1,21 @@
 #include "<%= name.downcase %>.hpp"
 
 std::list<<%= name %>ShPtr> <%= name %>::all;
+std::string <%= name %>::type = "<%= name %>";
 
 <%= name %>::<%= name %>() :
 Basic() {}
 
 <%= name %>ShPtr <%= name %>::create() {
 	all.push_back(<%= name %>ShPtr(new <%= name %>()));
+	all.back()->set_parent(BasicWkPtr());
 	return all.back();
+}
+
+<%= name %>ShPtr <%= name %>::create(BasicWkPtr _parent) {
+	auto ptr = <%= name %>::create();
+	ptr->set_parent(_parent);
+	return ptr;
 }
 
 void <%= name %>::destroy(unsigned int _ID) {
@@ -16,6 +24,18 @@ void <%= name %>::destroy(unsigned int _ID) {
 
 void <%= name %>::destroy() {
 	destroy(getID());
+}
+
+BasicWkPtr <%= name %>::get_parent() {
+	return parent;
+}
+
+void <%= name %>::set_parent(BasicWkPtr _parent) {
+	parent = _parent;
+}
+
+std::string <%= name %>::get_type() {
+	return type;
 }
 
 <% children.each do |child| %><% if child[:repeatable] then %><%= 
@@ -53,7 +73,7 @@ void <%= name %>::read_element(ticpp::Element* elem) {
 	try {
 		ticpp::Element* child_elem = elem->FirstChildElement("<%= child[:scoped_name] %>");
 		while (true) {
-			<%= child[:name].tableize %>.push_back(<%= child[:name] %>::create());
+			<%= child[:name].tableize %>.push_back(<%= child[:name] %>::create(shared_from_this()));
 			<%= child[:name].tableize %>.back()->read_element(child_elem);
 			child_elem = child_elem->NextSiblingElement("<%= child[:scoped_name] %>");
 		}
@@ -64,7 +84,7 @@ void <%= name %>::read_element(ticpp::Element* elem) {
 	<% else %>
 	try {
 		ticpp::Element* child_elem = elem->FirstChildElement("<%= child[:scoped_name] %>");
-		<%= child[:name].tableize.singularize %> = <%= child[:name] %>::create();
+		<%= child[:name].tableize.singularize %> = <%= child[:name] %>::create(shared_from_this());
 		<%= child[:name].tableize.singularize %>->read_element(child_elem);
 	}
 	catch( ticpp::Exception& ex )

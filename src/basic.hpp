@@ -8,8 +8,9 @@
 #include "../../lib/ticpp/ticpp.h"
 
 class Basic;
-typedef std::shared_ptr<Basic> BasicShPtr;
-typedef std::list<BasicShPtr> BasicPtrList;
+typedef std::shared_ptr<Basic> 	BasicShPtr;
+typedef std::weak_ptr<Basic> 	BasicWkPtr;
+typedef std::list<BasicShPtr> 	BasicPtrList;
 
 class Basic : public std::enable_shared_from_this<Basic> {
 public:
@@ -22,6 +23,9 @@ public:
 	unsigned int getID() const;
 	
 	static BasicPtrList all;
+	static std::string type;
+	
+	virtual std::string get_type();
 	
 	virtual void read_element(ticpp::Element*);
 	

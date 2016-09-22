@@ -21,16 +21,24 @@ private:
    ResourcePackagePtrList resource_packages;
    std::string version_date;
    
+   BasicWkPtr parent;
 public:
 	DDIInstance();
 	~DDIInstance() {}
 	
 	//Keep track of all objects 
 	static std::list<DDIInstanceShPtr> all;
+	static std::string type;
 	
 	static DDIInstanceShPtr create();
+	static DDIInstanceShPtr create(BasicWkPtr);
 	static void destroy(unsigned int _ID);
 	virtual void destroy();
+	
+	BasicWkPtr get_parent();
+	void set_parent(BasicWkPtr);
+	
+	std::string get_type();
 	
 	//Getters and setters
 	

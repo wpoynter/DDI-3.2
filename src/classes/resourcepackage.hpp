@@ -29,16 +29,24 @@ private:
    CodeListSchemePtrList code_list_schemes;
    std::string version_date;
    
+   BasicWkPtr parent;
 public:
 	ResourcePackage();
 	~ResourcePackage() {}
 	
 	//Keep track of all objects 
 	static std::list<ResourcePackageShPtr> all;
+	static std::string type;
 	
 	static ResourcePackageShPtr create();
+	static ResourcePackageShPtr create(BasicWkPtr);
 	static void destroy(unsigned int _ID);
 	virtual void destroy();
+	
+	BasicWkPtr get_parent();
+	void set_parent(BasicWkPtr);
+	
+	std::string get_type();
 	
 	//Getters and setters
 	

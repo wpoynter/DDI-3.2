@@ -17,16 +17,24 @@ private:
    LowPtrList lows;
    
    
+   BasicWkPtr parent;
 public:
 	NumberRange();
 	~NumberRange() {}
 	
 	//Keep track of all objects 
 	static std::list<NumberRangeShPtr> all;
+	static std::string type;
 	
 	static NumberRangeShPtr create();
+	static NumberRangeShPtr create(BasicWkPtr);
 	static void destroy(unsigned int _ID);
 	virtual void destroy();
+	
+	BasicWkPtr get_parent();
+	void set_parent(BasicWkPtr);
+	
+	std::string get_type();
 	
 	//Getters and setters
 	LowPtrList get_lows();

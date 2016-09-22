@@ -1,13 +1,21 @@
 #include "urn.hpp"
 
 std::list<URNShPtr> URN::all;
+std::string URN::type = "URN";
 
 URN::URN() :
 Basic() {}
 
 URNShPtr URN::create() {
 	all.push_back(URNShPtr(new URN()));
+	all.back()->set_parent(BasicWkPtr());
 	return all.back();
+}
+
+URNShPtr URN::create(BasicWkPtr _parent) {
+	auto ptr = URN::create();
+	ptr->set_parent(_parent);
+	return ptr;
 }
 
 void URN::destroy(unsigned int _ID) {
@@ -16,6 +24,18 @@ void URN::destroy(unsigned int _ID) {
 
 void URN::destroy() {
 	destroy(getID());
+}
+
+BasicWkPtr URN::get_parent() {
+	return parent;
+}
+
+void URN::set_parent(BasicWkPtr _parent) {
+	parent = _parent;
+}
+
+std::string URN::get_type() {
+	return type;
 }
 
 

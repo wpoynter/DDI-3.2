@@ -1,13 +1,21 @@
 #include "interviewerinstructionscheme.hpp"
 
 std::list<InterviewerInstructionSchemeShPtr> InterviewerInstructionScheme::all;
+std::string InterviewerInstructionScheme::type = "InterviewerInstructionScheme";
 
 InterviewerInstructionScheme::InterviewerInstructionScheme() :
 Basic() {}
 
 InterviewerInstructionSchemeShPtr InterviewerInstructionScheme::create() {
 	all.push_back(InterviewerInstructionSchemeShPtr(new InterviewerInstructionScheme()));
+	all.back()->set_parent(BasicWkPtr());
 	return all.back();
+}
+
+InterviewerInstructionSchemeShPtr InterviewerInstructionScheme::create(BasicWkPtr _parent) {
+	auto ptr = InterviewerInstructionScheme::create();
+	ptr->set_parent(_parent);
+	return ptr;
 }
 
 void InterviewerInstructionScheme::destroy(unsigned int _ID) {
@@ -16,6 +24,18 @@ void InterviewerInstructionScheme::destroy(unsigned int _ID) {
 
 void InterviewerInstructionScheme::destroy() {
 	destroy(getID());
+}
+
+BasicWkPtr InterviewerInstructionScheme::get_parent() {
+	return parent;
+}
+
+void InterviewerInstructionScheme::set_parent(BasicWkPtr _parent) {
+	parent = _parent;
+}
+
+std::string InterviewerInstructionScheme::get_type() {
+	return type;
 }
 
 URNShPtr InterviewerInstructionScheme::get_urn() {
@@ -44,7 +64,7 @@ void InterviewerInstructionScheme::read_element(ticpp::Element* elem) {
 	
 	try {
 		ticpp::Element* child_elem = elem->FirstChildElement("r:URN");
-		urn = URN::create();
+		urn = URN::create(shared_from_this());
 		urn->read_element(child_elem);
 	}
 	catch( ticpp::Exception& ex )
@@ -55,7 +75,7 @@ void InterviewerInstructionScheme::read_element(ticpp::Element* elem) {
 	try {
 		ticpp::Element* child_elem = elem->FirstChildElement("d:InterviewerInstructionSchemeName");
 		while (true) {
-			interviewer_instruction_scheme_names.push_back(InterviewerInstructionSchemeName::create());
+			interviewer_instruction_scheme_names.push_back(InterviewerInstructionSchemeName::create(shared_from_this()));
 			interviewer_instruction_scheme_names.back()->read_element(child_elem);
 			child_elem = child_elem->NextSiblingElement("d:InterviewerInstructionSchemeName");
 		}
@@ -68,7 +88,7 @@ void InterviewerInstructionScheme::read_element(ticpp::Element* elem) {
 	try {
 		ticpp::Element* child_elem = elem->FirstChildElement("d:Instruction");
 		while (true) {
-			instructions.push_back(Instruction::create());
+			instructions.push_back(Instruction::create(shared_from_this()));
 			instructions.back()->read_element(child_elem);
 			child_elem = child_elem->NextSiblingElement("d:Instruction");
 		}

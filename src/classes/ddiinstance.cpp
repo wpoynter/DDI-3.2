@@ -1,13 +1,21 @@
 #include "ddiinstance.hpp"
 
 std::list<DDIInstanceShPtr> DDIInstance::all;
+std::string DDIInstance::type = "DDIInstance";
 
 DDIInstance::DDIInstance() :
 Basic() {}
 
 DDIInstanceShPtr DDIInstance::create() {
 	all.push_back(DDIInstanceShPtr(new DDIInstance()));
+	all.back()->set_parent(BasicWkPtr());
 	return all.back();
+}
+
+DDIInstanceShPtr DDIInstance::create(BasicWkPtr _parent) {
+	auto ptr = DDIInstance::create();
+	ptr->set_parent(_parent);
+	return ptr;
 }
 
 void DDIInstance::destroy(unsigned int _ID) {
@@ -16,6 +24,18 @@ void DDIInstance::destroy(unsigned int _ID) {
 
 void DDIInstance::destroy() {
 	destroy(getID());
+}
+
+BasicWkPtr DDIInstance::get_parent() {
+	return parent;
+}
+
+void DDIInstance::set_parent(BasicWkPtr _parent) {
+	parent = _parent;
+}
+
+std::string DDIInstance::get_type() {
+	return type;
 }
 
 URNShPtr DDIInstance::get_urn() {
@@ -44,7 +64,7 @@ void DDIInstance::read_element(ticpp::Element* elem) {
 	
 	try {
 		ticpp::Element* child_elem = elem->FirstChildElement("r:URN");
-		urn = URN::create();
+		urn = URN::create(shared_from_this());
 		urn->read_element(child_elem);
 	}
 	catch( ticpp::Exception& ex )
@@ -55,7 +75,7 @@ void DDIInstance::read_element(ticpp::Element* elem) {
 	try {
 		ticpp::Element* child_elem = elem->FirstChildElement("r:Citation");
 		while (true) {
-			citations.push_back(Citation::create());
+			citations.push_back(Citation::create(shared_from_this()));
 			citations.back()->read_element(child_elem);
 			child_elem = child_elem->NextSiblingElement("r:Citation");
 		}
@@ -68,7 +88,7 @@ void DDIInstance::read_element(ticpp::Element* elem) {
 	try {
 		ticpp::Element* child_elem = elem->FirstChildElement("g:ResourcePackage");
 		while (true) {
-			resource_packages.push_back(ResourcePackage::create());
+			resource_packages.push_back(ResourcePackage::create(shared_from_this()));
 			resource_packages.back()->read_element(child_elem);
 			child_elem = child_elem->NextSiblingElement("g:ResourcePackage");
 		}

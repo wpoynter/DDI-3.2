@@ -19,16 +19,24 @@ private:
    SubTitlePtrList sub_titles;
    
    
+   BasicWkPtr parent;
 public:
 	Citation();
 	~Citation() {}
 	
 	//Keep track of all objects 
 	static std::list<CitationShPtr> all;
+	static std::string type;
 	
 	static CitationShPtr create();
+	static CitationShPtr create(BasicWkPtr);
 	static void destroy(unsigned int _ID);
 	virtual void destroy();
+	
+	BasicWkPtr get_parent();
+	void set_parent(BasicWkPtr);
+	
+	std::string get_type();
 	
 	//Getters and setters
 	

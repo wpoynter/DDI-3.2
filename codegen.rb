@@ -20,6 +20,7 @@ class Tag
     @repeatable = !([
     'Title', 'PublicationDate', 'String', 'Text',
     'URN', 'ID', 'Agency', 'LiteralText', 'Description',
+    'TypeOfObject',
     'Version'].include?(@name))
   end
   

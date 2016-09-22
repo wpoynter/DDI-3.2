@@ -1,13 +1,21 @@
 #include "programlanguage.hpp"
 
 std::list<ProgramLanguageShPtr> ProgramLanguage::all;
+std::string ProgramLanguage::type = "ProgramLanguage";
 
 ProgramLanguage::ProgramLanguage() :
 Basic() {}
 
 ProgramLanguageShPtr ProgramLanguage::create() {
 	all.push_back(ProgramLanguageShPtr(new ProgramLanguage()));
+	all.back()->set_parent(BasicWkPtr());
 	return all.back();
+}
+
+ProgramLanguageShPtr ProgramLanguage::create(BasicWkPtr _parent) {
+	auto ptr = ProgramLanguage::create();
+	ptr->set_parent(_parent);
+	return ptr;
 }
 
 void ProgramLanguage::destroy(unsigned int _ID) {
@@ -16,6 +24,18 @@ void ProgramLanguage::destroy(unsigned int _ID) {
 
 void ProgramLanguage::destroy() {
 	destroy(getID());
+}
+
+BasicWkPtr ProgramLanguage::get_parent() {
+	return parent;
+}
+
+void ProgramLanguage::set_parent(BasicWkPtr _parent) {
+	parent = _parent;
+}
+
+std::string ProgramLanguage::get_type() {
+	return type;
 }
 
 

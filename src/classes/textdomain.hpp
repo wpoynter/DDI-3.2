@@ -17,16 +17,24 @@ private:
    LabelPtrList labels;
    std::string max_length;
    
+   BasicWkPtr parent;
 public:
 	TextDomain();
 	~TextDomain() {}
 	
 	//Keep track of all objects 
 	static std::list<TextDomainShPtr> all;
+	static std::string type;
 	
 	static TextDomainShPtr create();
+	static TextDomainShPtr create(BasicWkPtr);
 	static void destroy(unsigned int _ID);
 	virtual void destroy();
+	
+	BasicWkPtr get_parent();
+	void set_parent(BasicWkPtr);
+	
+	std::string get_type();
 	
 	//Getters and setters
 	LabelPtrList get_labels();

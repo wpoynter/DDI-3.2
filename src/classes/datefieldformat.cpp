@@ -1,13 +1,21 @@
 #include "datefieldformat.hpp"
 
 std::list<DateFieldFormatShPtr> DateFieldFormat::all;
+std::string DateFieldFormat::type = "DateFieldFormat";
 
 DateFieldFormat::DateFieldFormat() :
 Basic() {}
 
 DateFieldFormatShPtr DateFieldFormat::create() {
 	all.push_back(DateFieldFormatShPtr(new DateFieldFormat()));
+	all.back()->set_parent(BasicWkPtr());
 	return all.back();
+}
+
+DateFieldFormatShPtr DateFieldFormat::create(BasicWkPtr _parent) {
+	auto ptr = DateFieldFormat::create();
+	ptr->set_parent(_parent);
+	return ptr;
 }
 
 void DateFieldFormat::destroy(unsigned int _ID) {
@@ -16,6 +24,18 @@ void DateFieldFormat::destroy(unsigned int _ID) {
 
 void DateFieldFormat::destroy() {
 	destroy(getID());
+}
+
+BasicWkPtr DateFieldFormat::get_parent() {
+	return parent;
+}
+
+void DateFieldFormat::set_parent(BasicWkPtr _parent) {
+	parent = _parent;
+}
+
+std::string DateFieldFormat::get_type() {
+	return type;
 }
 
 

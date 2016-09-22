@@ -21,16 +21,24 @@ private:
    LabelPtrList labels;
    
    
+   BasicWkPtr parent;
 public:
 	DateTimeDomain();
 	~DateTimeDomain() {}
 	
 	//Keep track of all objects 
 	static std::list<DateTimeDomainShPtr> all;
+	static std::string type;
 	
 	static DateTimeDomainShPtr create();
+	static DateTimeDomainShPtr create(BasicWkPtr);
 	static void destroy(unsigned int _ID);
 	virtual void destroy();
+	
+	BasicWkPtr get_parent();
+	void set_parent(BasicWkPtr);
+	
+	std::string get_type();
 	
 	//Getters and setters
 	DateFieldFormatPtrList get_date_field_formats();

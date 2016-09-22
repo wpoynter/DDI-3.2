@@ -21,16 +21,24 @@ private:
    InstructionPtrList instructions;
    std::string version_date;
    
+   BasicWkPtr parent;
 public:
 	InterviewerInstructionScheme();
 	~InterviewerInstructionScheme() {}
 	
 	//Keep track of all objects 
 	static std::list<InterviewerInstructionSchemeShPtr> all;
+	static std::string type;
 	
 	static InterviewerInstructionSchemeShPtr create();
+	static InterviewerInstructionSchemeShPtr create(BasicWkPtr);
 	static void destroy(unsigned int _ID);
 	virtual void destroy();
+	
+	BasicWkPtr get_parent();
+	void set_parent(BasicWkPtr);
+	
+	std::string get_type();
 	
 	//Getters and setters
 	

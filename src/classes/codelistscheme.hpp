@@ -21,16 +21,24 @@ private:
    CodeListPtrList code_lists;
    std::string version_date;
    
+   BasicWkPtr parent;
 public:
 	CodeListScheme();
 	~CodeListScheme() {}
 	
 	//Keep track of all objects 
 	static std::list<CodeListSchemeShPtr> all;
+	static std::string type;
 	
 	static CodeListSchemeShPtr create();
+	static CodeListSchemeShPtr create(BasicWkPtr);
 	static void destroy(unsigned int _ID);
 	virtual void destroy();
+	
+	BasicWkPtr get_parent();
+	void set_parent(BasicWkPtr);
+	
+	std::string get_type();
 	
 	//Getters and setters
 	

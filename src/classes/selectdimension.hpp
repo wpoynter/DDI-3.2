@@ -15,16 +15,24 @@ private:
    
    std::string rank;std::string all_value;std::string specific_value;
    
+   BasicWkPtr parent;
 public:
 	SelectDimension();
 	~SelectDimension() {}
 	
 	//Keep track of all objects 
 	static std::list<SelectDimensionShPtr> all;
+	static std::string type;
 	
 	static SelectDimensionShPtr create();
+	static SelectDimensionShPtr create(BasicWkPtr);
 	static void destroy(unsigned int _ID);
 	virtual void destroy();
+	
+	BasicWkPtr get_parent();
+	void set_parent(BasicWkPtr);
+	
+	std::string get_type();
 	
 	//Getters and setters
 	
